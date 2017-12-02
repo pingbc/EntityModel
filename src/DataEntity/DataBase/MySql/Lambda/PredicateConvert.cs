@@ -1,12 +1,12 @@
 // // /*****************************************************
 // // (c)2016-2016 Copy right www.gboxt.com
-// // ×÷Õß:
-// // ¹¤³Ì:Agebull.DataModel
-// // ½¨Á¢:2016-06-16
-// // ĞŞ¸Ä:2016-06-16
+// // ä½œè€…:
+// // å·¥ç¨‹:Agebull.DataModel
+// // å»ºç«‹:2016-06-16
+// // ä¿®æ”¹:2016-06-16
 // // *****************************************************/
 
-#region ÒıÓÃ
+#region å¼•ç”¨
 
 using System;
 using System.Collections;
@@ -22,56 +22,56 @@ using Agebull.Common.Logging;
 namespace Gboxt.Common.DataModel.MySql
 {
     /// <summary>
-    ///     ÓÃÓÚSql Servr µÄLambda±í´ïÊ½½âÎöÆ÷(½öÖ§³Ö²éÑ¯Ìõ¼ş)
+    ///     ç”¨äºSql Servr çš„Lambdaè¡¨è¾¾å¼è§£æå™¨(ä»…æ”¯æŒæŸ¥è¯¢æ¡ä»¶)
     /// </summary>
     public sealed class PredicateConvert
     {
         /// <summary>
-        ///     ¹ØÁª×Ö¶Î
+        ///     å…³è”å­—æ®µ
         /// </summary>
         private readonly Dictionary<string, string> _columnMap;
 
         /// <summary>
-        ///     ½á¹ûÌõ¼ş½Úµã
+        ///     ç»“æœæ¡ä»¶èŠ‚ç‚¹
         /// </summary>
         private ConditionItem _condition;
 
         /// <summary>
-        ///     ÓëÉÏÒ»´Î½âÊÍµÄÌõ¼şÓÃAND·½Ê½×éºÏ(·ñÔòÎªOR×éºÏ)
+        ///     ä¸ä¸Šä¸€æ¬¡è§£é‡Šçš„æ¡ä»¶ç”¨ANDæ–¹å¼ç»„åˆ(å¦åˆ™ä¸ºORç»„åˆ)
         /// </summary>
         private bool _mergeByAnd;
 
         /// <summary>
-        ///     ¹¹Ôì
+        ///     æ„é€ 
         /// </summary>
         public PredicateConvert()
         {
         }
 
         /// <summary>
-        ///     ¹¹Ôì
+        ///     æ„é€ 
         /// </summary>
-        /// <param name="map">¹ØÁª×Ö¶Î</param>
+        /// <param name="map">å…³è”å­—æ®µ</param>
         public PredicateConvert(Dictionary<string, string> map)
         {
             _columnMap = map;
         }
 
         /// <summary>
-        ///     È¡µÃÃû³Æ
+        ///     å–å¾—åç§°
         /// </summary>
-        /// <param name="expression">×Ö¶Î»òÊôĞÔ¶ÔÏó</param>
-        /// <returns>Ãû³Æ</returns>
+        /// <param name="expression">å­—æ®µæˆ–å±æ€§å¯¹è±¡</param>
+        /// <returns>åç§°</returns>
         public static string GetName(MemberExpression expression)
         {
             return expression.Member.Name;
         }
 
         /// <summary>
-        ///     È¡µÃÖµ
+        ///     å–å¾—å€¼
         /// </summary>
-        /// <param name="expression">Lambda½Úµã¶ÔÏó</param>
-        /// <returns>¼ÆËã½á¹ûÖµ</returns>
+        /// <param name="expression">LambdaèŠ‚ç‚¹å¯¹è±¡</param>
+        /// <returns>è®¡ç®—ç»“æœå€¼</returns>
         public static object GetValue(Expression expression)
         {
             var lambda = Expression.Lambda(expression);
@@ -88,24 +88,24 @@ namespace Gboxt.Common.DataModel.MySql
         }
 
         /// <summary>
-        ///     ·ÖÎöLambda±í´ïÊ½
+        ///     åˆ†æLambdaè¡¨è¾¾å¼
         /// </summary>
-        /// <typeparam name="T">·½·¨ÀàĞÍ</typeparam>
-        /// <param name="columns">¹ØÁª×Ö¶Î</param>
-        /// <param name="predicate">Lambda±í´ïÊ½</param>
-        /// <returns>½á¹ûÌõ¼ş¶ÔÏó(SQLÌõ¼şºÍ²ÎÊı)</returns>
+        /// <typeparam name="T">æ–¹æ³•ç±»å‹</typeparam>
+        /// <param name="columns">å…³è”å­—æ®µ</param>
+        /// <param name="predicate">Lambdaè¡¨è¾¾å¼</param>
+        /// <returns>ç»“æœæ¡ä»¶å¯¹è±¡(SQLæ¡ä»¶å’Œå‚æ•°)</returns>
         public static ConditionItem Convert<T>(string[] columns, Expression<T> predicate)
         {
             return Convert(columns.ToDictionary(p => p, p => p), predicate);
         }
 
         /// <summary>
-        ///     ·ÖÎöLambda±í´ïÊ½
+        ///     åˆ†æLambdaè¡¨è¾¾å¼
         /// </summary>
-        /// <typeparam name="T">·½·¨ÀàĞÍ</typeparam>
-        /// <param name="map">¹ØÁª×Ö¶Î</param>
-        /// <param name="predicate">Lambda±í´ïÊ½</param>
-        /// <returns>½á¹ûÌõ¼ş¶ÔÏó(SQLÌõ¼şºÍ²ÎÊı)</returns>
+        /// <typeparam name="T">æ–¹æ³•ç±»å‹</typeparam>
+        /// <param name="map">å…³è”å­—æ®µ</param>
+        /// <param name="predicate">Lambdaè¡¨è¾¾å¼</param>
+        /// <returns>ç»“æœæ¡ä»¶å¯¹è±¡(SQLæ¡ä»¶å’Œå‚æ•°)</returns>
         public static ConditionItem Convert<T>(Dictionary<string, string> map, Expression<T> predicate)
         {
             var convert = new PredicateConvert(map);
@@ -113,14 +113,14 @@ namespace Gboxt.Common.DataModel.MySql
         }
 
         /// <summary>
-        ///     ·ÖÎöLambda±í´ïÊ½
+        ///     åˆ†æLambdaè¡¨è¾¾å¼
         /// </summary>
-        /// <typeparam name="T">·½·¨ÀàĞÍ</typeparam>
-        /// <param name="map">¹ØÁª×Ö¶Î</param>
-        /// <param name="predicate">Lambda±í´ïÊ½</param>
-        /// <param name="condition">Ö®Ç°ÒÑ½âÎöµÄÌõ¼ş,¿ÉÎª¿Õ</param>
-        /// <param name="mergeByAnd">ÓëÇ°ÃæµÄÌõ¼ş(conditionÖĞÒÑ´æÔÚµÄ)ÊÇÓÃÓë»¹ÊÇ»ò×éºÏ</param>
-        /// <returns>½á¹ûÌõ¼ş¶ÔÏó(SQLÌõ¼şºÍ²ÎÊı)</returns>
+        /// <typeparam name="T">æ–¹æ³•ç±»å‹</typeparam>
+        /// <param name="map">å…³è”å­—æ®µ</param>
+        /// <param name="predicate">Lambdaè¡¨è¾¾å¼</param>
+        /// <param name="condition">ä¹‹å‰å·²è§£æçš„æ¡ä»¶,å¯ä¸ºç©º</param>
+        /// <param name="mergeByAnd">ä¸å‰é¢çš„æ¡ä»¶(conditionä¸­å·²å­˜åœ¨çš„)æ˜¯ç”¨ä¸è¿˜æ˜¯æˆ–ç»„åˆ</param>
+        /// <returns>ç»“æœæ¡ä»¶å¯¹è±¡(SQLæ¡ä»¶å’Œå‚æ•°)</returns>
         public static void Convert<T>(Dictionary<string, string> map, Expression<T> predicate, ConditionItem condition, bool mergeByAnd = true)
         {
             var convert = new PredicateConvert(map)
@@ -132,14 +132,14 @@ namespace Gboxt.Common.DataModel.MySql
         }
 
         /// <summary>
-        ///     ·ÖÎöLambda±í´ïÊ½
+        ///     åˆ†æLambdaè¡¨è¾¾å¼
         /// </summary>
-        /// <typeparam name="T">·½·¨ÀàĞÍ</typeparam>
-        /// <param name="columns">¹ØÁª×Ö¶Î</param>
-        /// <param name="predicate">Lambda±í´ïÊ½</param>
-        /// <param name="condition">Ö®Ç°ÒÑ½âÎöµÄÌõ¼ş,¿ÉÎª¿Õ</param>
-        /// <param name="mergeByAnd">ÓëÇ°ÃæµÄÌõ¼ş(conditionÖĞÒÑ´æÔÚµÄ)ÊÇÓÃÓë»¹ÊÇ»ò×éºÏ</param>
-        /// <returns>½á¹ûÌõ¼ş¶ÔÏó(SQLÌõ¼şºÍ²ÎÊı)</returns>
+        /// <typeparam name="T">æ–¹æ³•ç±»å‹</typeparam>
+        /// <param name="columns">å…³è”å­—æ®µ</param>
+        /// <param name="predicate">Lambdaè¡¨è¾¾å¼</param>
+        /// <param name="condition">ä¹‹å‰å·²è§£æçš„æ¡ä»¶,å¯ä¸ºç©º</param>
+        /// <param name="mergeByAnd">ä¸å‰é¢çš„æ¡ä»¶(conditionä¸­å·²å­˜åœ¨çš„)æ˜¯ç”¨ä¸è¿˜æ˜¯æˆ–ç»„åˆ</param>
+        /// <returns>ç»“æœæ¡ä»¶å¯¹è±¡(SQLæ¡ä»¶å’Œå‚æ•°)</returns>
         public static ConditionItem Convert2<T>(string[] columns, Expression<Func<T, bool>> predicate, ConditionItem condition = null, bool mergeByAnd = true)
         {
             var convert = new PredicateConvert(columns.ToDictionary(p => p, p => p))
@@ -151,12 +151,12 @@ namespace Gboxt.Common.DataModel.MySql
         }
 
         /// <summary>
-        ///     ·ÖÎöLambda±í´ïÊ½
+        ///     åˆ†æLambdaè¡¨è¾¾å¼
         /// </summary>
-        /// <typeparam name="T">·½·¨ÀàĞÍ</typeparam>
-        /// <param name="map">¹ØÁª×Ö¶Î</param>
-        /// <param name="filter">Lambda±í´ïÊ½</param>
-        /// <returns>½á¹ûÌõ¼ş¶ÔÏó(SQLÌõ¼şºÍ²ÎÊı)</returns>
+        /// <typeparam name="T">æ–¹æ³•ç±»å‹</typeparam>
+        /// <param name="map">å…³è”å­—æ®µ</param>
+        /// <param name="filter">Lambdaè¡¨è¾¾å¼</param>
+        /// <returns>ç»“æœæ¡ä»¶å¯¹è±¡(SQLæ¡ä»¶å’Œå‚æ•°)</returns>
         public static ConditionItem Convert<T>(Dictionary<string, string> map, LambdaItem<T> filter)
         {
             var condition = new ConditionItem();
@@ -165,14 +165,14 @@ namespace Gboxt.Common.DataModel.MySql
         }
 
         /// <summary>
-        ///     ·ÖÎöLambda±í´ïÊ½
+        ///     åˆ†æLambdaè¡¨è¾¾å¼
         /// </summary>
-        /// <typeparam name="T">·½·¨ÀàĞÍ</typeparam>
-        /// <param name="map">¹ØÁª×Ö¶Î</param>
-        /// <param name="filter">Lambda±í´ïÊ½</param>
-        /// <param name="condition">Ö®Ç°ÒÑ½âÎöµÄÌõ¼ş,¿ÉÎª¿Õ</param>
-        /// <param name="mergeByAnd">ÓëÇ°ÃæµÄÌõ¼ş(conditionÖĞÒÑ´æÔÚµÄ)ÊÇÓÃÓë»¹ÊÇ»ò×éºÏ</param>
-        /// <returns>½á¹ûÌõ¼ş¶ÔÏó(SQLÌõ¼şºÍ²ÎÊı)</returns>
+        /// <typeparam name="T">æ–¹æ³•ç±»å‹</typeparam>
+        /// <param name="map">å…³è”å­—æ®µ</param>
+        /// <param name="filter">Lambdaè¡¨è¾¾å¼</param>
+        /// <param name="condition">ä¹‹å‰å·²è§£æçš„æ¡ä»¶,å¯ä¸ºç©º</param>
+        /// <param name="mergeByAnd">ä¸å‰é¢çš„æ¡ä»¶(conditionä¸­å·²å­˜åœ¨çš„)æ˜¯ç”¨ä¸è¿˜æ˜¯æˆ–ç»„åˆ</param>
+        /// <returns>ç»“æœæ¡ä»¶å¯¹è±¡(SQLæ¡ä»¶å’Œå‚æ•°)</returns>
         public static ConditionItem Convert<T>(Dictionary<string, string> map, LambdaItem<T> filter, ConditionItem condition, bool mergeByAnd)
         {
             var root = new PredicateConvert(map)
@@ -207,11 +207,11 @@ namespace Gboxt.Common.DataModel.MySql
         }
 
         /// <summary>
-        ///     ·ÖÎöLambda±í´ïÊ½
+        ///     åˆ†æLambdaè¡¨è¾¾å¼
         /// </summary>
-        /// <typeparam name="T">·½·¨ÀàĞÍ</typeparam>
-        /// <param name="predicate">Lambda±í´ïÊ½</param>
-        /// <returns>½á¹ûÌõ¼ş¶ÔÏó(SQLÌõ¼şºÍ²ÎÊı)</returns>
+        /// <typeparam name="T">æ–¹æ³•ç±»å‹</typeparam>
+        /// <param name="predicate">Lambdaè¡¨è¾¾å¼</param>
+        /// <returns>ç»“æœæ¡ä»¶å¯¹è±¡(SQLæ¡ä»¶å’Œå‚æ•°)</returns>
         public ConditionItem Convert<T>(Expression<T> predicate)
         {
             if (_condition == null)
@@ -234,20 +234,20 @@ namespace Gboxt.Common.DataModel.MySql
         }
 
         /// <summary>
-        ///     ²»³ÉÎÄµÄ±í´ïÊ½´¦Àí
+        ///     ä¸æˆæ–‡çš„è¡¨è¾¾å¼å¤„ç†
         /// </summary>
-        /// <param name="str">ÓĞ¿ÉÄÜ²»ºÏ¸ñµÄSQLÎÄ±¾</param>
-        /// <returns>ÕıÈ·ºÏ¸ñµÄSQLÎÄ±¾</returns>
+        /// <param name="str">æœ‰å¯èƒ½ä¸åˆæ ¼çš„SQLæ–‡æœ¬</param>
+        /// <returns>æ­£ç¡®åˆæ ¼çš„SQLæ–‡æœ¬</returns>
         private string CheckSingle(string str)
         {
             return str.Contains("(") ? str : $"{str} = 1";
         }
 
         /// <summary>
-        ///     ×ª»»±í´ïÊ½
+        ///     è½¬æ¢è¡¨è¾¾å¼
         /// </summary>
-        /// <param name="expression">Lambda¶ÔÏó</param>
-        /// <returns>½âÊÍºóµÄSQLÎÄ±¾</returns>
+        /// <param name="expression">Lambdaå¯¹è±¡</param>
+        /// <returns>è§£é‡Šåçš„SQLæ–‡æœ¬</returns>
         private string ConvertExpression(Expression expression)
         {
             var binaryExpression = expression as BinaryExpression;
@@ -297,10 +297,10 @@ namespace Gboxt.Common.DataModel.MySql
         }
 
         /// <summary>
-        ///     ×ª»»±í´ïÊ½
+        ///     è½¬æ¢è¡¨è¾¾å¼
         /// </summary>
-        /// <param name="expression">¶şÔªLambda¶ÔÏó</param>
-        /// <returns>½âÊÍºóµÄSQLÎÄ±¾</returns>
+        /// <param name="expression">äºŒå…ƒLambdaå¯¹è±¡</param>
+        /// <returns>è§£é‡Šåçš„SQLæ–‡æœ¬</returns>
         private string Convert(BinaryExpression expression)
         {
             //left
@@ -364,10 +364,10 @@ namespace Gboxt.Common.DataModel.MySql
         }
 
         /// <summary>
-        ///     È¡µÃ·½·¨¶ÔÏóµÄ²ÎÊı
+        ///     å–å¾—æ–¹æ³•å¯¹è±¡çš„å‚æ•°
         /// </summary>
-        /// <param name="expression">·½·¨Lambda¶ÔÏó</param>
-        /// <returns>²ÎÊıÎÄ±¾</returns>
+        /// <param name="expression">æ–¹æ³•Lambdaå¯¹è±¡</param>
+        /// <returns>å‚æ•°æ–‡æœ¬</returns>
         private string GetArguments(MethodCallExpression expression)
         {
             var sb = new StringBuilder();
@@ -390,10 +390,10 @@ namespace Gboxt.Common.DataModel.MySql
         }
 
         /// <summary>
-        ///     ×ª»»±í´ïÊ½
+        ///     è½¬æ¢è¡¨è¾¾å¼
         /// </summary>
-        /// <param name="expression">Ò»ÔªLambda¶ÔÏó</param>
-        /// <returns>½âÊÍºóµÄSQLÎÄ±¾</returns>
+        /// <param name="expression">ä¸€å…ƒLambdaå¯¹è±¡</param>
+        /// <returns>è§£é‡Šåçš„SQLæ–‡æœ¬</returns>
         private string Convert(UnaryExpression expression)
         {
             switch (expression.NodeType)
@@ -415,15 +415,15 @@ namespace Gboxt.Common.DataModel.MySql
         }
 
         /// <summary>
-        ///     ×ª»»±í´ïÊ½
+        ///     è½¬æ¢è¡¨è¾¾å¼
         /// </summary>
-        /// <param name="expression">·½·¨Lambda¶ÔÏó</param>
-        /// <returns>½âÊÍºóµÄSQLÎÄ±¾</returns>
+        /// <param name="expression">æ–¹æ³•Lambdaå¯¹è±¡</param>
+        /// <returns>è§£é‡Šåçš„SQLæ–‡æœ¬</returns>
         private string Convert(MethodCallExpression expression)
         {
             if (expression.Method.DeclaringType == null)
             {
-                throw new ArgumentException("²»Ö§³Ö²ÎÊıµÄ·½·¨(½öÖ§³ÖÊôĞÔµÄ·½·¨)");
+                throw new ArgumentException("ä¸æ”¯æŒå‚æ•°çš„æ–¹æ³•(ä»…æ”¯æŒå±æ€§çš„æ–¹æ³•)");
             }
             if (expression.Method.Name == "Equals")
             {
@@ -459,7 +459,7 @@ namespace Gboxt.Common.DataModel.MySql
                     case "Replace":
                         return $"REPLACE({ConvertExpression(expression.Object)},{GetArguments(expression)})";
                 }
-                throw new ArgumentException("²»Ö§³Ö·½·¨");
+                throw new ArgumentException("ä¸æ”¯æŒæ–¹æ³•");
             }
             if (expression.Method.DeclaringType == typeof(Math))
             {
@@ -495,10 +495,10 @@ namespace Gboxt.Common.DataModel.MySql
         }
 
         /// <summary>
-        ///     ×ª»»±í´ïÊ½
+        ///     è½¬æ¢è¡¨è¾¾å¼
         /// </summary>
-        /// <param name="expression">ÊôĞÔ»ò×Ö¶ÎLambda¶ÔÏó</param>
-        /// <returns>½âÊÍºóµÄSQLÎÄ±¾</returns>
+        /// <param name="expression">å±æ€§æˆ–å­—æ®µLambdaå¯¹è±¡</param>
+        /// <returns>è§£é‡Šåçš„SQLæ–‡æœ¬</returns>
         private string Convert(MemberExpression expression)
         {
             if (expression.Expression is ParameterExpression)
@@ -527,7 +527,7 @@ namespace Gboxt.Common.DataModel.MySql
                             return $"?{_condition.AddParameter(DateTime.Today)}";
                     }
                 }
-                throw new ArgumentException("²»Ö§³ÖµÄÀ©Õ¹·½·¨");
+                throw new ArgumentException("ä¸æ”¯æŒçš„æ‰©å±•æ–¹æ³•");
             }
             var vl = GetValue(expression);
             if (vl == null)
@@ -545,11 +545,16 @@ namespace Gboxt.Common.DataModel.MySql
             {
                 return "'" + string.Join("','", slist) + "'";
             }
+            if (vl is IList<long> llist)
+            {
+                return "'" + string.Join("','", llist) + "'";
+            }
             var dlist = vl as IList<DateTime>;
             if (dlist != null)
             {
                 return "'" + string.Join("','", dlist) + "'";
             }
+
             if (vl is string)
             {
                 return $"?{_condition.AddParameter(vl)}";
@@ -597,10 +602,10 @@ namespace Gboxt.Common.DataModel.MySql
         }
 
         /// <summary>
-        ///     ×ª»»±í´ïÊ½
+        ///     è½¬æ¢è¡¨è¾¾å¼
         /// </summary>
-        /// <param name="expression">³£Á¿Lambda¶ÔÏó</param>
-        /// <returns>½âÊÍºóµÄSQLÎÄ±¾</returns>
+        /// <param name="expression">å¸¸é‡Lambdaå¯¹è±¡</param>
+        /// <returns>è§£é‡Šåçš„SQLæ–‡æœ¬</returns>
         private string Convert(ConstantExpression expression)
         {
             if (expression.Value == null || expression.Value.ToString().ToLower() == "null")
